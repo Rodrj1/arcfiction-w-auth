@@ -1,0 +1,10 @@
+export { default as AuthInput } from './AuthInput';
+export { default as UserProfile } from './UserProfile';
+export { default as Navbar } from './Navbar';
+export { default as MovieCollection } from './MovieCollection';
+export { default as MovieCard } from './MovieCard';
+export { default as MainVideo } from './MainVideo';
+export { default as MediaDetailed } from './MediaDetailed';
+export { default as MediaSlider } from './MediaSlider';
+export { default as PersonCollection } from './PersonCollection';
+export { default as PersonCard } from './PersonCard';
