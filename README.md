@@ -1,34 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ARCFiction Remade
 
-## Getting Started
+[Website](https://arcfictionrem.vercel.app/)
 
-First, run the development server:
+## Homepage
+![Untitled](https://user-images.githubusercontent.com/97490087/232387551-b9381ed0-2cc4-407e-b190-c1177a0a798e.png)
+
+## Movie page
+
+Is pretty similar to the Homepage, only change is that trending only features movies
+
+## TV Show page
+
+![Untitled](https://user-images.githubusercontent.com/97490087/232388675-6a488555-acb8-4fea-bedc-68b051aeedd8.png)
+
+## Details
+
+You can open any movie or tv show and see its details by clicking on Watch Now.
+
+![Untitled2](https://user-images.githubusercontent.com/97490087/232389317-d6b51fba-8b90-42a9-a818-c19a04d1fd30.png)
+![Untitled3](https://user-images.githubusercontent.com/97490087/232389323-58d3d81b-ecb1-4f4a-9b7a-116e4ebce8df.png)
+
+You can also favorite them by clicking on the following button:
+
+![fav](https://user-images.githubusercontent.com/97490087/232389923-21b62e42-fb35-42c2-b989-426aa0be1c3c.png)
+
+Now it should appear in the My List page.
+
+![sca](https://user-images.githubusercontent.com/97490087/232390082-c86b1f81-c8af-424f-a419-babb2b2d1421.png)
+
+## Auth
+
+![aut](https://user-images.githubusercontent.com/97490087/232390573-a5bfd909-1bd2-4dd5-b3f3-0261fde0d045.png)
+
+In order to be able to list movies or tv shows you must register. As the image says you can also click the offered links in case you don't want to. This is just for checking the website. Since I allowed TV Shows and Movies pages to be accesed even while unregistered, logged users may experience a log out when refreshing the page. Go back to /auth and log in again.
+
+## Local environment
+
+You need to use Prisma and mongodb atlas.
 
 ```bash
-npm run dev
-# or
-yarn dev
+git clone
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Next you need to create the following keys inside an .env file:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+DATABASE_URL=yourmondodbURL
+NEXTAUTH_JWT_SECRET="NEXT-JWT-SECRET"
+NEXTAUTH_SECRET="NEXT-SECRET"
+NEXT_PUBLIC_API_KEY= an api key from TMDB API
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```
+If you want the providers to work you need also a key from them, then you must name them like so:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```bash
+GITHUB_ID=
+GITHUB_SECRET=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
