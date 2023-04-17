@@ -1,43 +1,43 @@
 import axios from 'axios';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 
 import { useCurrentUser, useFavorites } from '../hooks';
-import { SvgArrowLeft, SvgArrowRight } from './Svgs';
+import { SvgUnlist, SvgList } from './Svgs';
+import { FavoriteMedia, Media } from '../types';
+import toast from 'react-hot-toast';
 
 interface FavoriteButtonProps {
-  mediaId: number;
+  media: Media;
 }
 
-const FavoriteButton: React.FC<FavoriteButtonProps> = ({ mediaId }) => {
-  const { mutate: mutateFavorites } = useFavorites();
+const FavoriteButton: React.FC<FavoriteButtonProps> = ({ media }) => {
+  const { data, mutate: mutateFavorites } = useFavorites();
 
   const { data: currentUser, mutate } = useCurrentUser();
 
-  const isFavorite = useMemo(() => {
-    const list = currentUser?.favoriteIds || [];
+  const favorites: FavoriteMedia[] = data;
 
-    return list.includes(mediaId);
-  }, [currentUser, mediaId]);
+  const isFavorited = favorites?.find((favorited) => {
+    return favorited.media_id == media.id.toString();
+  });
 
   const toggleFavorites = useCallback(async () => {
     let response;
 
-    if (isFavorite) {
-      response = await axios.delete('/api/favorite', { data: { mediaId } });
+    if (isFavorited) {
+      toast.loading('Searching in list...');
+      response = await axios.post('/api/unmarkasfavorite', { media });
+      toast.success('Removed from list!');
     } else {
-      response = await axios.post('/api/favorite', { mediaId });
+      toast.loading('Listing...');
+      response = await axios.post('/api/markasfavorite', { media });
+      if (response) toast.success('Succesfully listed!');
     }
 
-    const updatedFavoriteIds = response?.data?.favoriteIds;
-
-    mutate({
-      ...currentUser,
-      favoriteIds: updatedFavoriteIds,
-    });
     mutateFavorites();
-  }, [mediaId, isFavorite, currentUser, mutate, mutateFavorites]);
+  }, [media.id, currentUser, data, mutate, mutateFavorites]);
 
-  const Icon = isFavorite ? <SvgArrowLeft /> : <SvgArrowRight />;
+  const Icon = isFavorited ? <SvgUnlist /> : <SvgList />;
 
   return (
     <div

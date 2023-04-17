@@ -1,10 +1,33 @@
 import { useCallback, useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 import { AuthInput } from '../components';
 import { SvgGithub, SvgGoogle } from '../components/Svgs';
+import { useRouter } from 'next/router';
+import { NextPageContext } from 'next';
 import axios from 'axios';
+import Link from 'next/link';
+import toast from 'react-hot-toast';
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
 
 export default function Auth() {
+  const router = useRouter();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,33 +41,61 @@ export default function Auth() {
 
   const login = useCallback(async () => {
     try {
+      toast.loading('Sending request');
       await signIn('credentials', {
         email,
         password,
-        redirect: false,
+        redirect: true,
         callbackUrl: '/',
       });
+      router.push('/');
+      toast.success('Succesfully logged in!');
     } catch (e) {
       console.log(e);
     }
-  }, [email, password]);
+  }, [email, password, router]);
 
   const register = useCallback(async () => {
     try {
+      toast.loading('Checking if valid...');
       await axios.post('/api/register', {
         email,
         name,
         password,
       });
-
       login();
     } catch (error) {
-      console.log(error);
+      toast.error('Email taken!', {
+        duration: 2300,
+      });
     }
   }, [email, name, password, login]);
 
+  const loginWithProvider = async (provider: string) => {
+    toast.loading('Sending request');
+    await signIn(`${provider}`, { callbackUrl: '/' });
+    toast.success('Redirecting');
+  };
+
   return (
-    <div className="flex justify-center items-center bg-gradient-to-r from-zinc-950 to-zinc-900 relative h-[80vh]">
+    <div className="flex flex-col justify-center items-center bg-gradient-to-r from-zinc-950 to-zinc-900 relative h-auto">
+      <div className="flex flex-col bg-customgray w-11/12 md:w-[400px] h-auto py-3 rounded-md p-3 mb-5 mt-20 text-sm">
+        <p>
+          <span className="text-red-500 font-bold">ALTERNATIVELY</span> if you
+          don't want to register:
+        </p>
+        <Link className="text-blue-600 hover:underline" href={'/movies'}>
+          Movies
+        </Link>
+        <Link className="text-blue-600 hover:underline" href={'/tvshows'}>
+          TV Shows
+        </Link>
+        <p>
+          By allowing these pages to non-registered users (for testing
+          purposes), those that did register might experience the loss of logged
+          status when refreshing pages with F5. Redirect to /auth to log again.
+        </p>
+      </div>
       <div className="bg-customgray border-b-8 border-red-600 w-11/12 md:w-[400px] h-auto py-3 rounded-md">
         <h2 className="text-center font-bold text-xl">
           {status === 'Sign In' ? 'Sign In' : 'Register'}
@@ -95,10 +146,16 @@ export default function Auth() {
           </p>
 
           <div className="flex gap-5">
-            <div className='cursor-pointer' onClick={() => signIn('github', { callbackUrl: '/' })}>
+            <div
+              className="cursor-pointer"
+              onClick={() => loginWithProvider('github')}
+            >
               <SvgGithub />
             </div>
-            <div className='cursor-pointer' onClick={() => signIn('google', { callbackUrl: '/' })}>
+            <div
+              className="cursor-pointer"
+              onClick={() => loginWithProvider('google')}
+            >
               <SvgGoogle />
             </div>
           </div>

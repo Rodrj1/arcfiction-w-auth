@@ -10,7 +10,7 @@ export default function UserProfile({ user }: { user: LoggedUser }) {
       : user.image;
 
   return (
-    <div className="flex rounded-md items-center bg-customgray gap-2">
+    <div className="flex rounded-md top-0 items-center bg-opacity-80 gap-2  sm:justify-end sm:absolute right-5 h-[50px]">
       <button
         className="bg-red-600 hover:bg-red-600/70 transition-colors text-white w-36 h-10 rounded-md"
         onClick={() => signOut()}

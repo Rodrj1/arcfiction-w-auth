@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Media } from '../types';
 import { useRouter } from 'next/router';
+import toast from 'react-hot-toast';
 
 interface Props {
   movie: Media;
@@ -21,10 +22,10 @@ export default function Movie({ movie, style }: Props) {
 
   const stylesForImageContainer = {
     Trending:
-      'h-[250px] w-full sm:w-[450px] border-t-2 border-red-600 rounded-2xl',
-    Popular: 'h-[200px] w-full sm:w-[290px] rounded-2xl',
-    Toprated: 'h-[180px] w-full sm:w-[190px] rounded-2xl',
-    Recommended: 'h-[180px] w-full sm:w-[190px] rounded-2xl',
+      'h-[250px] w-[270px] sm:w-[450px] border-t-2 border-red-600 rounded-2xl',
+    Popular: 'h-[200px] w-[250px] sm:w-[290px] rounded-2xl',
+    Toprated: 'h-[180px] w-[250px] sm:w-[190px] rounded-2xl',
+    Recommended: 'h-[180px] w-[190px] rounded-2xl',
   };
   const imageContainerStyle = stylesForImageContainer[style];
 
@@ -40,6 +41,11 @@ export default function Movie({ movie, style }: Props) {
 
   const router = useRouter();
 
+  const handleRedirect = () => {
+    toast.loading('Redirecting');
+    router.push(`/${movie.name ? 'tvshow' : 'movie'}/${movie.id}`);
+  };
+
   return (
     <article className={`${cardStyle} relative`}>
       <h2 className="absolute bottom-8 m-3 text-white font-bold text-xl truncate max-w-[80%]">
@@ -52,19 +58,15 @@ export default function Movie({ movie, style }: Props) {
         </span>
       </h3>
 
-      <button
-        onClick={() =>
-          router.push(`/${movie.name ? 'tvshow' : 'movie'}/${movie.id}`)
-        }
-        className={`${buttonStyle} z-30`}
-      >
+      <button onClick={handleRedirect} className={`${buttonStyle} z-30`}>
         Watch Now
       </button>
 
       <div className={`${imageContainerStyle} relative`}>
         <Image
-          alt={movie.title}
+          alt={movie.name ? movie.name : movie.title}
           fill={true}
+          sizes=""
           className={`opacity-90 object-cover object-top rounded-2xl -z-10`}
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
         />

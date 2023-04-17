@@ -20,18 +20,21 @@ export default function MediaSlider({ id, children }: Props) {
     <>
       <div
         onClick={slideToLeft}
-        className={`z-10 absolute top-1/2 left-2 cursor-pointer`}
+        className={`z-10 hidden sm:block absolute top-1/2 left-2 cursor-pointer`}
       >
         <SvgArrowLeft />
       </div>
 
-      <div id={id} className="mx-16 my-3 overflow-hidden scroll-smooth">
+      <div
+        id={id}
+        className="mx-2 sm:mx-16 my-3 overflow-x-auto sm:overflow-hidden scroll-smooth"
+      >
         {children}
       </div>
 
       <div
         onClick={slideToRight}
-        className={`z-10 absolute top-1/2 right-2 cursor-pointer`}
+        className={`z-10 hidden sm:block absolute top-1/2 right-2 cursor-pointer`}
       >
         <SvgArrowRight />
       </div>

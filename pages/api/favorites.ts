@@ -14,11 +14,9 @@ export default async function handler(
 
     const { currentUser } = await serverAuth(req, res);
 
-    const favoritedMovies = await prismadb.movie.findMany({
+    const favoritedMovies = await prismadb.media.findMany({
       where: {
-        id: {
-          in: currentUser?.favoriteIds,
-        },
+        userId: currentUser?.id,
       },
     });
 

@@ -13,6 +13,14 @@ export type Media = {
   name?: string;
 };
 
+export type FavoriteMedia = {
+  media_id: string;
+  type: string;
+  poster: string;
+  title: string;
+  id: string;
+};
+
 export type Results = {
   results: Media[];
 };
@@ -29,7 +37,7 @@ export type MediaDetails = Media & {
     posters: { file_path: string }[];
   };
   recommendations: { results: Media[] };
-  credits: {cast: Person[]};
+  credits: { cast: Person[] };
   seasons?: Season[];
   networks?: Network[];
   status?: string;
@@ -56,5 +64,5 @@ type Person = {
   name: string;
   character: string;
   known_for_department: string;
-  profile_path: string | null
+  profile_path: string | null;
 };

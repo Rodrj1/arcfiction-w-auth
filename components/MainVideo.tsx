@@ -7,6 +7,19 @@ type Video = {
   key: string;
 };
 
+const videoOptions = {
+  height: '600px',
+  width: '100%',
+  playerVars: {
+    autoplay: 1,
+    controls: 1,
+    rel: 0,
+    showinfo: 0,
+    mute: 1,
+    loop: 1,
+  },
+};
+
 export default function MainVideo({ media }: { media: any }) {
   const [video, setVideo] = useState<Video | null>(null);
 
@@ -23,19 +36,6 @@ export default function MainVideo({ media }: { media: any }) {
 
     fetchMainVideo();
   }, []);
-
-  const videoOptions = {
-    height: '600px',
-    width: '100%',
-    playerVars: {
-      autoplay: 1,
-      controls: 1,
-      rel: 0,
-      showinfo: 0,
-      mute: 1,
-      loop: 1,
-    },
-  };
 
   if (!video) return <h1>Loading Video...</h1>;
 

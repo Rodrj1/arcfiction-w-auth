@@ -14,12 +14,12 @@ export default function MovieCollection({ movies, category }: Props) {
 
   return (
     <section className="relative flex flex-col">
-      <h2 className="font-bold text-xl text-slate-300 mb-3 mx-5">
+      <h2 className="font-bold text-center sm:text-left text-xl text-slate-300 mb-3 mx-5">
         {formatCategory}
       </h2>
 
       <MediaSlider id={category}>
-        <ul className="flex gap-5 relative">
+        <ul className="flex gap-5 relative h-[310px] sm:h-auto">
           {movies.map((movie) => (
             <li key={movie.id}>
               <MovieCard movie={movie} style={category} />

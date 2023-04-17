@@ -1,36 +1,21 @@
 import axios from 'axios';
 import MainVideo from '../components/MainVideo';
 import { MovieCollection } from '../components';
-import { getSession } from 'next-auth/react';
 import { Media, Results } from '../types';
-import type { NextPage, NextPageContext } from 'next';
+import type { NextPage } from 'next';
+import { pageTvRequests } from './api/data/requests';
 
-const url = `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`;
-
-const trendingUrl = `https://api.themoviedb.org/3/trending/tv/week?api_key=${process.env.NEXT_PUBLIC_API_KEY}`;
-
-const topratedurl = `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.NEXT_PUBLIC_API_KEY}`;
-
-export async function getServerSideProps(context: NextPageContext) {
-  const session = await getSession(context);
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth',
-        permanent: false,
-      },
-    };
-  }
-
-  const popular: Results = await axios.get(url).then((res) => res.data.results);
+export async function getServerSideProps() {
+  const popular: Results = await axios
+    .get(pageTvRequests.discover)
+    .then((res) => res.data.results);
 
   const trending: Results = await axios
-    .get(trendingUrl)
+    .get(pageTvRequests.trending)
     .then((res) => res.data.results);
 
   const toprated: Results = await axios
-    .get(topratedurl)
+    .get(pageTvRequests.toprated)
     .then((res) => res.data.results);
 
   return { props: { popular, trending, toprated } };

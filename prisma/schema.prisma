@@ -18,12 +18,21 @@ model User {
   updatedAt      DateTime  @updatedAt
   sessions       Session[]
   accounts       Account[]
-  favoriteIds    String[]  @db.ObjectId
+  favorited      Media[]
+}
+
+model Media {
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  media_id        String  @unique
+  title           String
+  poster          String
+  type            String
+  favoritedByUser User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String? @db.ObjectId
 }
 
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
   type              String
   provider          String
   providerAccountId String
@@ -34,7 +43,8 @@ model Account {
   scope             String?
   id_token          String? @db.String
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String  @db.ObjectId
 
   @@unique([provider, providerAccountId])
 }
@@ -42,26 +52,16 @@ model Account {
 model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique
-  userId       String   @db.ObjectId
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String   @db.ObjectId
 }
 
 model VerificationToken {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
-  token      String   @unique
+  token      String   
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model Movie {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
-  title        String
-  description  String
-  videoUrl     String
-  thumbnailUrl String
-  genre        String
-  duration     String
 }

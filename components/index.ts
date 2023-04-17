@@ -8,3 +8,4 @@ export { default as MediaDetailed } from './MediaDetailed';
 export { default as MediaSlider } from './MediaSlider';
 export { default as PersonCollection } from './PersonCollection';
 export { default as PersonCard } from './PersonCard';
+export { default as FavoritedMedia } from './FavoritedMedia';

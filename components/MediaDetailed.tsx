@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { MediaDetails } from '../types';
 import MovieCollection from './MovieCollection';
 import PersonCollection from './PersonCollection';
 import FavoriteButton from './FavoriteButton';
+import { MediaDetails } from '../types';
 
 export default function MediaDetailed({ media }: { media: MediaDetails }) {
   const randomBg = Math.floor(Math.random() * media.images.backdrops.length);
@@ -13,33 +13,38 @@ export default function MediaDetailed({ media }: { media: MediaDetails }) {
 
   const isTvShow = media.seasons != undefined;
 
-  console.log(media);
-
   return (
     <main>
-      <div className="mt-14 bg-slate-600/10 flex items-center min-h-[570px] w-full relative justify-center p-2 sm:px-16 gap-10">
+      <div className="mt-14 bg-slate-600/10 flex flex-col sm:flex-row items-center min-h-[570px] w-full relative justify-center p-2 sm:px-16 gap-10">
         <div className={`h-[500px] relative w-[380px]`}>
           <Image
-            alt={media.title}
+            alt={media.name ? media.name : media.title}
             fill
             className={`object-cover h-[500px] -z-10 rounded-md`}
+            sizes=""
             src={`https://image.tmdb.org/t/p/w500${media.poster_path}`}
           />
         </div>
 
         <div className="flex flex-col gap-3 w-full md:w-[50%]">
-          <Link href={media.homepage}>
-            <h1 className="text-3xl font-bold text-slate-300 hover:text-white">
+          {media.homepage != '' ? (
+            <Link href={media.homepage}>
+              <h1 className="text-3xl font-bold text-slate-300 hover:text-white">
+                {media.name ? media.name : media.title}
+              </h1>
+            </Link>
+          ) : (
+            <h1 className="text-3xl font-bold text-slate-30">
               {media.name ? media.name : media.title}
             </h1>
-          </Link>
+          )}
 
           <ul className="flex gap-1 text-sm text-blue-500">
             {media.genres.map((genre, index) => {
               if (media.genres.length - 1 === index)
                 return (
                   <li key={genre.name}>
-                    {genre.name} {media.runtime && " - " + media.runtime + "m"}
+                    {genre.name} {media.runtime && ' - ' + media.runtime + 'm'}
                   </li>
                 );
 
@@ -65,15 +70,15 @@ export default function MediaDetailed({ media }: { media: MediaDetails }) {
             {media.status && media.status}
           </h2>
 
-          <FavoriteButton mediaId={media.id} />
+          <FavoriteButton media={media} />
         </div>
 
-        <div className={`h-[570px] absolute right-0 w-[100%] -z-10`}>
+        <div className={`h-[570px] absolute hidden sm:right-0 w-[100%] -z-10`}>
           <Image
-            alt={media.title}
+            alt={media.name ? media.name : media.title}
             fill
             sizes="100vw"
-            className={`opacity-10 object-cover object-right h-[570px]`}
+            className={`opacity-10 object-cover object-center`}
             src={`https://image.tmdb.org/t/p/w1280${background}`}
           />
         </div>
@@ -84,15 +89,21 @@ export default function MediaDetailed({ media }: { media: MediaDetails }) {
       </div>
 
       {isTvShow && (
-        <div className="mt-14 bg-slate-600/10 flex justify-evenly h-auto w-full relative p-2 sm:px-16 gap-10">
+        <div className="mt-14 bg-slate-600/10 flex flex-col sm:flex-row justify-evenly items-center h-auto w-full relative p-2 sm:px-16 gap-10">
           <ul>
-            <h2 className="text-xl text-slate-300 font-bold">SEASONS</h2>
+            <h2 className="text-xl text-slate-300 font-bold text-center sm:text-left">
+              SEASONS
+            </h2>
             {media.seasons?.map((season) => (
-              <article className="flex my-5 gap-5" key={season.id}>
+              <article
+                className="flex flex-col sm:flex-row my-5 gap-5 justify-center items-center p-3 sm:p-0"
+                key={season.id}
+              >
                 <div className={`h-[300px] relative w-[300px]`}>
                   <Image
-                    alt={media.title}
+                    alt={season.name}
                     fill
+                    sizes=""
                     className={`object-cover h-[300px] -z-10 rounded-md`}
                     src={`https://image.tmdb.org/t/p/w500${season.poster_path}`}
                   />
@@ -111,16 +122,19 @@ export default function MediaDetailed({ media }: { media: MediaDetails }) {
 
           {media.networks && (
             <ul>
-              <h2 className="text-xl text-right text-slate-300 font-bold">NETWORKS</h2>
+              <h2 className="text-xl text-center sm:text-right text-slate-300 font-bold">
+                NETWORKS
+              </h2>
               {media.networks.map((network) => (
                 <article
-                  className="flex my-5 gap-5 items-center justify-end"
+                  className="flex my-5 gap-5 items-center justify-between sm:justify-end"
                   key={network.id}
                 >
                   <div className={`h-[100px] relative w-[100px]`}>
                     <Image
                       alt={network.name}
                       fill
+                      sizes=""
                       className={`object-contain h-[100px] -z-10 rounded-md`}
                       src={`https://image.tmdb.org/t/p/w500${network.logo_path}`}
                     />

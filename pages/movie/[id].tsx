@@ -1,5 +1,4 @@
 import { NextPage, NextPageContext } from 'next';
-import { getSession } from 'next-auth/react';
 import { MediaDetails } from '../../types';
 import { MediaDetailed } from '../../components';
 import axios from 'axios';
@@ -9,10 +8,6 @@ interface Context extends NextPageContext {
 }
 
 export async function getServerSideProps(context: Context) {
-  const session = await getSession(context);
-
-  if (!session) return { redirect: { destination: '/auth', permanent: false } };
-
   const mediaId = context.query.id;
 
   const path = context.resolvedUrl;

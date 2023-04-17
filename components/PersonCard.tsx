@@ -12,6 +12,7 @@ export default function PersonCard({ person }: { person: Person }) {
             <Image
               alt={person.name}
               fill={true}
+              sizes=''
               className={`opacity-90 p-1 object-cover object-top rounded-full -z-10`}
               src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
             />
