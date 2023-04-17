@@ -82,7 +82,7 @@ export default function Auth() {
       <div className="flex flex-col bg-customgray w-11/12 md:w-[400px] h-auto py-3 rounded-md p-3 mb-5 mt-20 text-sm">
         <p>
           <span className="text-red-500 font-bold">ALTERNATIVELY</span> if you
-          don't want to register:
+          do not want to register:
         </p>
         <Link className="text-blue-600 hover:underline" href={'/movies'}>
           Movies

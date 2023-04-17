@@ -9,8 +9,6 @@ interface Props {
 }
 
 export default function Movie({ movie, style }: Props) {
-  if (!movie) return <h1>Loading</h1>;
-
   const stylesForCard = {
     Trending:
       'h-[300px] w-full sm:w-[450px] border-t-2 border-red-600 rounded-2xl',
@@ -45,6 +43,8 @@ export default function Movie({ movie, style }: Props) {
     toast.loading('Redirecting');
     router.push(`/${movie.name ? 'tvshow' : 'movie'}/${movie.id}`);
   };
+
+  if (!movie) return <h1>Loading</h1>;
 
   return (
     <article className={`${cardStyle} relative`}>
