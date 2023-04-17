@@ -20,11 +20,11 @@ You can open any movie or tv show and see its details by clicking on Watch Now.
 ![Untitled2](https://user-images.githubusercontent.com/97490087/232389317-d6b51fba-8b90-42a9-a818-c19a04d1fd30.png)
 ![Untitled3](https://user-images.githubusercontent.com/97490087/232389323-58d3d81b-ecb1-4f4a-9b7a-116e4ebce8df.png)
 
-You can also favorite them by clicking on the Favorite Button.
+You can also favorite them by clicking on the following button:
 
 ![fav](https://user-images.githubusercontent.com/97490087/232389923-21b62e42-fb35-42c2-b989-426aa0be1c3c.png)
 
-Now in My List page it should appear there.
+Now it should appear in the My List page.
 
 ![sca](https://user-images.githubusercontent.com/97490087/232390082-c86b1f81-c8af-424f-a419-babb2b2d1421.png)
 
